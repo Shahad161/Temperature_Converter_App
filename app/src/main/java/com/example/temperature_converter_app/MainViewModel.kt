@@ -1,22 +1,15 @@
 package com.example.temperature_converter_app
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
-import kotlinx.coroutines.flow.MutableStateFlow
-
+import androidx.lifecycle.*
 
 class MainViewModel: ViewModel(){
 
-    var fahrenheit  = MutableLiveData<String>()
+    val fahrenheit  = MutableLiveData("32")
 
-    private var convertTemperature  = fahrenheit.map {
+    val celsius = Transformations.map(fahrenheit) {
         if (it.isEmpty()){ null }
         else{ convertFahrenheitToCelsius(it) }
     }
-
-    var celsius = MutableStateFlow(convertTemperature)
-
 
     private fun convertFahrenheitToCelsius(value:String):Double{
         return (value.toDouble() - 32) * 5/9
